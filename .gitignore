@@ -1,0 +1,13 @@
+
+.vscode/
+.idea/
+.kiro
+*.log
+
+.env
+node_modules/
+db/
+
+
+  
+  

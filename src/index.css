@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 220 20% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+    --primary: 350 65% 37%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 220 20% 20%;
+    --muted: 210 15% 94%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 30 95% 55%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 20% 90%;
+    --input: 210 20% 90%;
+    --ring: 350 65% 37%;
+    --radius: 0.75rem;
+    --brand-crimson: 350 65% 37%;
+    --brand-orange: 30 95% 53%;
+    --shadow-soft: 0 4px 20px -4px hsl(220 20% 10% / 0.08);
+    --shadow-card: 0 8px 32px -8px hsl(220 20% 10% / 0.1);
+    --shadow-hover: 0 12px 40px -8px hsl(350 65% 37% / 0.2);
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Tajawal", sans-serif;
+    direction: rtl;
+    text-align: right;
+  }
+
+  html {
+    direction: rtl;
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .hero-gradient {
+    background: linear-gradient(135deg, #923333 0%, #7C2525 50%, #5C1A1A 100%);
+  }
+
+  .card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px hsl(350 65% 37% / 0.15);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #923333, #D97706);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  /* animate-float respects animation-delay from inline styles */
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+}
