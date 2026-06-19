@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Rocket, ThumbsUp, ChevronRight, Loader2, Inbox } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -20,20 +20,64 @@ const featureIcons: Record<string, string> = {
   community:   "👥",
 };
 
+// Derives a stable browser fingerprint from canvas, screen and locale.
+// Not perfect — but good enough to catch accidental duplicate votes across tabs
+// and to supplement the IP-based check.  No external library needed.
+function buildFingerprint(): string {
+  try {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      ctx.textBaseline = "top";
+      ctx.font = "14px Arial";
+      ctx.fillStyle = "#f60";
+      ctx.fillRect(125, 1, 62, 20);
+      ctx.fillStyle = "#069";
+      ctx.fillText("Tomoh", 2, 15);
+      ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
+      ctx.fillText("🔒", 4, 17);
+    }
+    const bits = [
+      canvas.toDataURL(),
+      navigator.userAgent,
+      `${screen.width}x${screen.height}x${screen.colorDepth}`,
+      Intl.DateTimeFormat().resolvedOptions().timeZone,
+      navigator.language,
+    ].join("|");
+
+    // djb2 hash → hex string (no crypto needed, not for security, just dedup)
+    let hash = 5381;
+    for (let i = 0; i < bits.length; i++) {
+      hash = ((hash << 5) + hash) ^ bits.charCodeAt(i);
+      hash = hash >>> 0; // keep unsigned 32-bit
+    }
+    return hash.toString(16).padStart(8, "0");
+  } catch {
+    return "unknown";
+  }
+}
+
 export function FeatureVoting() {
   const queryClient = useQueryClient();
   const [localVotes, setLocalVotes] = useState<Record<number, boolean>>({});
+  const fingerprint = useRef<string>("");
+
+  useEffect(() => {
+    fingerprint.current = buildFingerprint();
+  }, []);
 
   const { data: features = [], isLoading } = useQuery({
     queryKey: ["features"],
-    queryFn: getFeatures,
+    queryFn: () => getFeatures(fingerprint.current),
   });
 
   const voteMutation = useMutation({
-    mutationFn: (feature: Feature) =>
-      (feature.user_voted || localVotes[feature.id])
-        ? unvoteFeature(feature.id)
-        : voteFeature(feature.id),
+    mutationFn: (feature: Feature) => {
+      const fp = fingerprint.current;
+      return (feature.user_voted || localVotes[feature.id])
+        ? unvoteFeature(feature.id, fp)
+        : voteFeature(feature.id, fp);
+    },
     onMutate: (feature) => {
       setLocalVotes((prev) => ({ ...prev, [feature.id]: !feature.user_voted }));
     },

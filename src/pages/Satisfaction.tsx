@@ -17,7 +17,7 @@ import type { SatisfactionForm as SatisfactionFormType } from "@/types";
 const schema = z.object({
   course_rating: z.number().min(1, "يرجى تقييم الدورة").max(5),
   instructor_rating: z.number().min(1, "يرجى تقييم المدرب").max(5),
-  nps_score: z.number().min(0).max(10),
+  nps_score: z.number({ required_error: "يرجى اختيار تقييم NPS" }).min(0).max(10),
   liked: z.string().min(5, "أخبرنا ماذا أعجبك"),
   improvement: z.string().optional(),
 });
@@ -58,7 +58,7 @@ function StarRating({ value, onChange, label }: { value: number; onChange: (v: n
   );
 }
 
-function NpsScore({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+function NpsScore({ value, onChange }: { value: number | null; onChange: (v: number) => void }) {
   return (
     <div>
       <p className="text-xs text-gray-500 flex justify-between mb-3">
@@ -80,6 +80,7 @@ function NpsScore({ value, onChange }: { value: number; onChange: (v: number) =>
                 ? "border-yellow-100 text-yellow-500 hover:border-yellow-300"
                 : "border-green-100 text-green-600 hover:border-green-300"
             }`}
+            aria-pressed={value === i}
           >
             {i}
           </button>
@@ -93,7 +94,7 @@ export function Satisfaction() {
   const [success, setSuccess] = useState<{ reference: string; message: string } | null>(null);
   const [courseRating, setCourseRating] = useState(0);
   const [instructorRating, setInstructorRating] = useState(0);
-  const [npsScore, setNpsScore] = useState(-1);
+  const [npsScore, setNpsScore] = useState<number | null>(null);
 
   const {
     register,
@@ -103,7 +104,6 @@ export function Satisfaction() {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { nps_score: -1 },
   });
 
   const mutation = useMutation({
@@ -124,7 +124,7 @@ export function Satisfaction() {
             reset();
             setCourseRating(0);
             setInstructorRating(0);
-            setNpsScore(-1);
+            setNpsScore(null);
           }}
         />
       </div>
@@ -186,8 +186,11 @@ export function Satisfaction() {
             </p>
             <NpsScore
               value={npsScore}
-              onChange={(v) => { setNpsScore(v); setValue("nps_score", v); }}
+              onChange={(v) => { setNpsScore(v); setValue("nps_score", v, { shouldValidate: true }); }}
             />
+            {errors.nps_score && (
+              <p className="text-xs text-red-500 mt-2">{errors.nps_score.message}</p>
+            )}
           </div>
 
           {/* Liked */}

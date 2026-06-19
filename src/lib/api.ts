@@ -61,17 +61,21 @@ export const submitSatisfaction = async (data: SatisfactionForm): Promise<Submit
 };
 
 // Feature Voting
-export const getFeatures = async (): Promise<Feature[]> => {
-  const res = await api.get<ApiResponse<Feature[]>>("/features");
+export const getFeatures = async (fingerprint?: string): Promise<Feature[]> => {
+  const res = await api.get<ApiResponse<Feature[]>>("/features", {
+    headers: fingerprint ? { "X-Voter-Fingerprint": fingerprint } : {},
+  });
   return res.data.data;
 };
 
-export const voteFeature = async (featureId: number): Promise<void> => {
-  await api.post(`/features/${featureId}/vote`);
+export const voteFeature = async (featureId: number, fingerprint?: string): Promise<void> => {
+  await api.post(`/features/${featureId}/vote`, { fingerprint });
 };
 
-export const unvoteFeature = async (featureId: number): Promise<void> => {
-  await api.delete(`/features/${featureId}/vote`);
+export const unvoteFeature = async (featureId: number, fingerprint?: string): Promise<void> => {
+  await api.delete(`/features/${featureId}/vote`, {
+    headers: fingerprint ? { "X-Voter-Fingerprint": fingerprint } : {},
+  });
 };
 
 // Roadmap
