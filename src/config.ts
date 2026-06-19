@@ -2,8 +2,10 @@
 // In dev: VITE_API_URL=/api/v1  (Vite proxy → localhost:8000)
 // In prod: VITE_API_URL=https://app.tomoh.io/api/v1
 
+// Falls back to app.tomoh.io so the build works even if VITE_API_URL is unset in CI.
+// For local dev, set VITE_API_URL=/api/v1 in .env.local to use the Vite proxy.
 export const API_URL =
-  import.meta.env.VITE_API_URL || '/api/v1';
+  import.meta.env.VITE_API_URL || 'https://app.tomoh.io/api/v1';
 
 // The platform backend — always app.tomoh.io, regardless of what VITE_API_URL is set to.
 // feedback.tomoh.io nginx serves only static files (no /api proxy), so the auth probe
