@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Bug, Lightbulb, BookOpen, Star, Rocket, Map,
   ArrowLeft, ChevronLeft, TrendingUp, Users, CheckCircle,
 } from "lucide-react";
+import { platformApi } from "@/lib/api";
 
 /* ── animation variants ── */
 const fadeUp = {
@@ -85,11 +87,17 @@ const categories = [
   },
 ];
 
-const stats = [
-  { icon: TrendingUp,  label: "مشكلة تم حلها",  value: "1,240+" },
-  { icon: CheckCircle, label: "اقتراح طُبّق",    value: "380+"   },
-  { icon: Users,       label: "مستخدم مشارك",   value: "8,500+" },
-];
+interface VoiceStats {
+  resolved_bugs: number;
+  implemented_suggestions: number;
+  total_participants: number;
+}
+
+function formatStat(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}م+`;
+  if (n >= 1_000)     return `${(n / 1_000).toFixed(n >= 10_000 ? 0 : 1)}ك+`;
+  return n > 0 ? `${n}+` : "—";
+}
 
 /* ── floating badge pill ── */
 function FloatingPill({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -101,6 +109,21 @@ function FloatingPill({ children, className }: { children: React.ReactNode; clas
 }
 
 export function Home() {
+  const [stats, setStats] = useState<VoiceStats | null>(null);
+
+  useEffect(() => {
+    platformApi.get("/voice/stats").then((res) => {
+      const d = res.data?.data ?? res.data;
+      if (d) setStats(d);
+    }).catch(() => {});
+  }, []);
+
+  const statItems = [
+    { icon: TrendingUp,  label: "مشكلة تم حلها",  value: stats ? formatStat(stats.resolved_bugs)             : null },
+    { icon: CheckCircle, label: "اقتراح طُبّق",    value: stats ? formatStat(stats.implemented_suggestions)   : null },
+    { icon: Users,       label: "مستخدم مشارك",   value: stats ? formatStat(stats.total_participants)         : null },
+  ];
+
   return (
     <div className="min-h-screen bg-white">
 
@@ -216,9 +239,13 @@ export function Home() {
         >
           <div className="container mx-auto max-w-2xl px-4 py-5">
             <div className="grid grid-cols-3 divide-x divide-x-reverse divide-gray-200">
-              {stats.map((s) => (
+              {statItems.map((s) => (
                 <div key={s.label} className="text-center px-4">
-                  <p className="text-2xl font-black text-tomoh-burgundy">{s.value}</p>
+                  {s.value === null ? (
+                    <div className="h-8 w-16 bg-gray-200 rounded animate-pulse mx-auto mb-1" />
+                  ) : (
+                    <p className="text-2xl font-black text-tomoh-burgundy">{s.value}</p>
+                  )}
                   <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
                 </div>
               ))}
