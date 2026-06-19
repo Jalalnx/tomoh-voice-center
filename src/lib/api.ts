@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL } from "@/config";
+import { API_URL, PLATFORM_API_URL } from "@/config";
 import type {
   BugReportForm,
   SuggestionForm,
@@ -21,9 +21,10 @@ const api = axios.create({
   headers: { "Content-Type": "application/json", Accept: "application/json" },
 });
 
-// Separate client for platform endpoints (e.g. /user) that live outside /voice
+// Separate client for platform endpoints (/user, /voice/stats).
+// Always points to app.tomoh.io — feedback.tomoh.io nginx has no /api proxy.
 export const platformApi = axios.create({
-  baseURL: API_URL,
+  baseURL: PLATFORM_API_URL,
   withCredentials: true,
   headers: { "Content-Type": "application/json", Accept: "application/json" },
 });
