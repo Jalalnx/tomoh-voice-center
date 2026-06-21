@@ -1,0 +1,9 @@
+# https://feedback.tomoh.io/robots.txt
+
+User-agent: *
+Allow: /
+
+# Ticket tracking pages contain user reference numbers — keep out of index.
+Disallow: /track/
+
+Sitemap: https://feedback.tomoh.io/sitemap.xml
