@@ -3,7 +3,7 @@ import { Search, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { LOGIN_URL, PLATFORM_URL } from "@/config";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo-96.png";
 
 const navItems = [
   { label: "الرئيسية", path: "/" },
@@ -20,7 +20,7 @@ export function Header() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2.5">
-          <img src={logo} alt="طموح" className="h-9 w-9 object-contain" />
+          <img src={logo} alt="" width={36} height={36} decoding="async" className="h-9 w-9 object-contain" />
           <div className="flex flex-col leading-tight">
             <span className="font-bold text-sm text-gray-900">مركز صوت طموح</span>
             <span className="text-xs text-tomoh-burgundy font-medium">Voice Center</span>
@@ -33,6 +33,7 @@ export function Header() {
             <Link
               key={item.path}
               to={item.path}
+              aria-current={location.pathname === item.path ? "page" : undefined}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 location.pathname === item.path
                   ? "bg-burgundy-50 text-tomoh-burgundy"
@@ -58,15 +59,19 @@ export function Header() {
             user ? (
               /* Logged-in: avatar + name → links back to platform profile */
               <a
-                href={`${PLATFORM_URL}/profile`}
+                href={`${PLATFORM_URL}/account/${user.username}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`الملف الشخصي لـ ${user.username} على منصة طموح`}
                 className="flex items-center gap-2 rounded-xl border border-gray-200 px-3 py-1.5 hover:border-burgundy-300 hover:bg-burgundy-50 transition-colors"
               >
                 {user.avatar ? (
                   <img
                     src={user.avatar}
-                    alt={user.username}
+                    alt=""
+                    width={28}
+                    height={28}
+                    decoding="async"
                     className="w-7 h-7 rounded-full object-cover flex-shrink-0"
                   />
                 ) : (

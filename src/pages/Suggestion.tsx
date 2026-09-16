@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FormField } from "@/components/forms/FormField";
 import { SuccessCard } from "@/components/forms/SuccessCard";
+import PageMeta from "@/components/common/PageMeta";
 import { submitSuggestion } from "@/lib/api";
 import { useAuth, LoginPrompt } from "@/contexts/AuthContext";
 import type { SuggestionForm as SuggestionFormType } from "@/types";
@@ -71,9 +72,16 @@ export function Suggestion() {
   if (success) {
     return (
       <div className="container mx-auto max-w-lg px-4 py-12">
+        <PageMeta
+          title="شارك اقتراحك لتحسين منصة طموح"
+          description="لديك فكرة تجعل طموح أفضل؟ اقترح تحسيناً على تصميم المنصة أو سرعتها أو الدورات أو الاختبارات أو المجتمع أو الشهادات — فكرتك قد تكون الميزة القادمة في طموح."
+          url="/suggestion"
+          keywords={["اقتراح تحسين", "أفكار لتطوير طموح", "تحسين المنصة", "اقتراحات الطلاب"]}
+        />
         <SuccessCard
           reference={success.reference}
           message={success.message}
+          heading="تم إرسال اقتراحك بنجاح"
           onReset={() => { setSuccess(null); reset(); setSelectedArea(""); }}
         />
       </div>
@@ -82,7 +90,13 @@ export function Suggestion() {
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-10">
-      <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+      <PageMeta
+        title="شارك اقتراحك لتحسين منصة طموح"
+        description="لديك فكرة تجعل طموح أفضل؟ اقترح تحسيناً على تصميم المنصة أو سرعتها أو الدورات أو الاختبارات أو المجتمع أو الشهادات — فكرتك قد تكون الميزة القادمة في طموح."
+        url="/suggestion"
+        keywords={["اقتراح تحسين", "أفكار لتطوير طموح", "تحسين المنصة", "اقتراحات الطلاب"]}
+      />
+      <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link to="/" className="hover:text-gray-600 transition-colors">الرئيسية</Link>
         <ChevronRight className="w-4 h-4 rotate-180" />
         <span className="text-gray-700 font-medium">اقتراح تحسين</span>
@@ -115,8 +129,8 @@ export function Suggestion() {
             </FormField>
           </div>
 
-          <FormField label="ما الذي تريد تحسينه؟" required error={errors.area?.message}>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <FormField label="ما الذي تريد تحسينه؟" group required error={errors.area?.message}>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2" role="group" aria-label="ما الذي تريد تحسينه؟">
               {areaOptions.map((opt) => (
                 <button
                   key={opt.value}
@@ -132,7 +146,7 @@ export function Suggestion() {
                   <div className={`text-xs font-semibold ${selectedArea === opt.value ? "text-yellow-700" : "text-gray-700"}`}>
                     {opt.label.substring(opt.label.indexOf(" ") + 1)}
                   </div>
-                  <div className="text-xs text-gray-400 mt-0.5 hidden sm:block">{opt.desc}</div>
+                  <div className="text-xs text-gray-500 mt-0.5 hidden sm:block">{opt.desc}</div>
                 </button>
               ))}
             </div>

@@ -64,6 +64,13 @@ jobs:
           script: |
             sudo chown -R www-data:www-data ${{ env.DEPLOY_PATH }}
             sudo chmod -R 755 ${{ env.DEPLOY_PATH }}
+            # The SPA rewrite lives in the certbot-managed vhost, not in this
+            # repo. Without `try_files ... /index.html` every deep link in the
+            # sitemap (/bug-report, /suggestion, ...) 404s on first load, so
+            # fail loudly instead of silently dropping them from the index.
+            # Provisioned once by hand via deploy/remote-setup.sh — never from CI.
+            sudo grep -q 'try_files' /etc/nginx/sites-available/feedback.tomoh.io 2>/dev/null \
+              || echo "::warning::SPA rewrite missing on feedback.tomoh.io — deep links will 404; re-run deploy/remote-setup.sh"
             echo "✅ Deployment to ${{ env.DEPLOY_PATH }} completed successfully!"
 
   notify:

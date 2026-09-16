@@ -69,11 +69,6 @@ export interface SatisfactionForm {
   improvement: string;
 }
 
-export interface FeatureVoteForm {
-  feature_id: number;
-  email?: string;
-}
-
 export interface Ticket {
   id: number;
   reference: string;

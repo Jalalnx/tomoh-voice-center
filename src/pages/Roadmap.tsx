@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getRoadmap } from "@/lib/api";
 import type { RoadmapItem } from "@/types";
 import { Badge } from "@/components/ui/badge";
+import PageMeta from "@/components/common/PageMeta";
 
 const columns: {
   status: RoadmapItem["status"];
@@ -27,7 +28,13 @@ export function Roadmap() {
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-10">
-      <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+      <PageMeta
+        title="خارطة طريق طموح — ما نعمل عليه وما أنجزناه"
+        description="شفافية كاملة: تابع بنود خارطة طريق منصة طموح بين مخطط وجارٍ التنفيذ وتم الإطلاق، واعرف أي اقتراحاتكم تحوّل فعلياً إلى ميزات على المنصة."
+        url="/roadmap"
+        keywords={["خارطة طريق طموح", "تحديثات المنصة", "ميزات تم إطلاقها", "قيد التطوير", "شفافية"]}
+      />
+      <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link to="/" className="hover:text-gray-600 transition-colors">الرئيسية</Link>
         <ChevronRight className="w-4 h-4 rotate-180" />
         <span className="text-gray-700 font-medium">خارطة الطريق</span>
@@ -109,7 +116,7 @@ export function Roadmap() {
       )}
 
       <div className="mt-12 bg-gradient-soft rounded-2xl border border-burgundy-100 p-6 text-center">
-        <p className="text-sm text-gray-700 font-medium mb-2">لديك اقتراح تريد رؤيته هنا؟</p>
+        <h2 className="text-sm text-gray-700 font-medium mb-2">لديك اقتراح تريد رؤيته هنا؟</h2>
         <p className="text-xs text-gray-500 mb-4">اقتراحاتكم هي الوقود الذي يحرك خارطة طموح</p>
         <Link
           to="/suggestion"

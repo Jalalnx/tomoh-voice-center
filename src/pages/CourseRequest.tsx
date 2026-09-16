@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FormField } from "@/components/forms/FormField";
 import { SuccessCard } from "@/components/forms/SuccessCard";
+import PageMeta from "@/components/common/PageMeta";
 import { submitCourseRequest } from "@/lib/api";
 import type { CourseRequestForm as CourseRequestFormType, CourseLevel } from "@/types";
 
@@ -64,9 +65,16 @@ export function CourseRequest() {
   if (success) {
     return (
       <div className="container mx-auto max-w-lg px-4 py-12">
+        <PageMeta
+          title="رشّح دورة أو مهارة تتمنى تعلمها في طموح"
+          description="اقترح على طموح دورة أو مهارة تريد تعلمها — Flutter، React Native، الذكاء الاصطناعي، AWS، UI/UX أو DevOps — وحدد المستوى المطلوب ورشّح مدرباً مناسباً لها."
+          url="/course-request"
+          keywords={["ترشيح دورة", "طلب دورة تدريبية", "دورات مطلوبة", "تعلم Flutter", "دورات عربية"]}
+        />
         <SuccessCard
           reference={success.reference}
           message={success.message}
+          heading="تم إرسال ترشيح الدورة بنجاح"
           onReset={() => { setSuccess(null); reset(); }}
         />
       </div>
@@ -75,7 +83,13 @@ export function CourseRequest() {
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-10">
-      <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+      <PageMeta
+        title="رشّح دورة أو مهارة تتمنى تعلمها في طموح"
+        description="اقترح على طموح دورة أو مهارة تريد تعلمها — Flutter، React Native، الذكاء الاصطناعي، AWS، UI/UX أو DevOps — وحدد المستوى المطلوب ورشّح مدرباً مناسباً لها."
+        url="/course-request"
+        keywords={["ترشيح دورة", "طلب دورة تدريبية", "دورات مطلوبة", "تعلم Flutter", "دورات عربية"]}
+      />
+      <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link to="/" className="hover:text-gray-600 transition-colors">الرئيسية</Link>
         <ChevronRight className="w-4 h-4 rotate-180" />
         <span className="text-gray-700 font-medium">ترشيح دورة</span>
@@ -136,8 +150,8 @@ export function CourseRequest() {
             <Textarea placeholder="أحتاج هذه الدورة لأن..." rows={4} {...register("reason")} />
           </FormField>
 
-          <FormField label="المستوى المطلوب" required>
-            <div className="grid grid-cols-3 gap-3">
+          <FormField label="المستوى المطلوب" group required>
+            <div className="grid grid-cols-3 gap-3" role="radiogroup" aria-label="المستوى المطلوب">
               {levelOptions.map((opt) => (
                 <label
                   key={opt.value}
@@ -158,7 +172,7 @@ export function CourseRequest() {
                   <span className={`text-sm font-bold ${selectedLevel === opt.value ? "text-blue-700" : "text-gray-800"}`}>
                     {opt.label}
                   </span>
-                  <span className="text-xs text-gray-400">{opt.desc}</span>
+                  <span className="text-xs text-gray-500">{opt.desc}</span>
                 </label>
               ))}
             </div>

@@ -6,6 +6,7 @@ import {
   ArrowLeft, ChevronLeft, TrendingUp, Users, CheckCircle,
 } from "lucide-react";
 import { platformApi } from "@/lib/api";
+import PageMeta from "@/components/common/PageMeta";
 
 /* ── animation variants ── */
 const fadeUp = {
@@ -126,6 +127,12 @@ export function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      <PageMeta
+        title="شاركنا رأيك وساعدنا في تطوير طموح"
+        description="مركز صوت طموح: أبلغ عن مشكلة تقنية، اقترح تحسيناً، رشّح دورة تتمنى تعلمها، قيّم تجربتك، وصوّت على الميزات القادمة — وتابع كل طلب برقم مرجعي فوري."
+        url="/"
+        keywords={["مركز صوت طموح", "ملاحظات طموح", "اقتراحات", "بلاغات", "تقييم الدورات", "خارطة الطريق"]}
+      />
 
       {/* ════════════════════════ HERO ════════════════════════ */}
       <section className="relative overflow-hidden bg-white">
@@ -169,14 +176,14 @@ export function Home() {
             </motion.div>
 
             {/* Headline */}
-            <motion.h1
-              variants={fadeUp}
-              className="text-4xl md:text-6xl font-black text-gray-900 leading-tight mb-5"
-            >
+            <h1 className="text-4xl md:text-6xl font-black text-gray-900 leading-tight mb-5">
+              <span className="block text-base md:text-lg font-bold text-gray-400 mb-3">مركز صوت طموح</span>
               رأيك يبني{" "}
               <span className="relative inline-block">
                 <span className="text-tomoh-burgundy">طموح</span>
                 <svg
+                  aria-hidden="true"
+                  focusable="false"
                   className="absolute -bottom-1 right-0 w-full"
                   viewBox="0 0 100 8"
                   preserveAspectRatio="none"
@@ -192,7 +199,10 @@ export function Home() {
                   />
                 </svg>
               </span>
-            </motion.h1>
+            </h1>
+
+            {/* What this site is — the definitional sentence */}
+            <p className="text-base text-gray-600 max-w-xl mx-auto mb-4">مركز صوت طموح هو القناة الرسمية لملاحظات مجتمع منصة طموح التعليمية. أبلغ عن مشكلة تقنية، أو اقترح تحسيناً، أو رشّح دورة تتمنى تعلمها — مجاناً ودون إنشاء حساب.</p>
 
             {/* Subtitle */}
             <motion.p
@@ -252,6 +262,7 @@ export function Home() {
             </div>
           </div>
         </motion.div>
+        <p className="text-center text-xs text-gray-500 mt-3">هذه الأرقام تُحدَّث تلقائياً وتعكس ما أنجزه فريق طموح بناءً على ملاحظات المجتمع.</p>
       </section>
 
       {/* ════════════════════════ CATEGORIES ════════════════════════ */}
@@ -264,9 +275,16 @@ export function Home() {
             transition={{ duration: 0.5 }}
             className="text-center mb-10"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">كيف يمكننا مساعدتك؟</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2" id="how-it-works">كيف تُرسل ملاحظتك إلى طموح؟</h2>
             <p className="text-gray-400 text-sm">اختر نوع طلبك وسيصل للفريق المختص مباشرةً</p>
           </motion.div>
+
+          <ol className="text-right text-sm text-gray-600 max-w-xl mx-auto mb-8 space-y-1 list-decimal ps-5">
+            <li>اختر نوع طلبك من البطاقات أدناه.</li>
+            <li>املأ النموذج: بريدك الإلكتروني ووصف الطلب.</li>
+            <li>احتفظ بالرقم المرجعي الذي يظهر فوراً بعد الإرسال.</li>
+            <li>تابع حالة الطلب في أي وقت من صفحة "تتبع طلب" بإدخال الرقم المرجعي.</li>
+          </ol>
 
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
@@ -320,7 +338,7 @@ export function Home() {
             className="flex flex-col sm:flex-row items-center justify-between gap-5 bg-gray-50 border border-gray-200 rounded-2xl px-7 py-6"
           >
             <div>
-              <p className="font-bold text-gray-900 mb-1">لديك طلب سابق؟</p>
+              <h2 className="font-bold text-gray-900 mb-1">لديك طلب سابق؟</h2>
               <p className="text-sm text-gray-500">تابع حالته في أي وقت برقم المرجع</p>
             </div>
             <Link

@@ -3,48 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#923333" />
-    <meta name="format-detection" content="telephone=no" />
+    <meta data-rh="true" name="theme-color" content="#923333" />
+    <meta data-rh="true" name="format-detection" content="telephone=no" />
 
+    <!--
+      Fallback head for no-JS crawlers and the first paint. Every tag that
+      PageMeta (src/components/common/PageMeta.tsx) also emits carries
+      data-rh="true" so react-helmet-async replaces it on mount instead of
+      leaving two copies in the head. There is deliberately no static canonical
+      link element here: helmet only manages tags it renders itself, so a static
+      one would survive and pin all 8 routes to the homepage. There is also no
+      static robots meta: PageMeta emits robots on every route, and a static
+      "index, follow" would contradict the noindex on /track for any crawler
+      that does not execute JS.
+    -->
     <title>مركز صوت طموح | شاركنا رأيك وساعدنا في التطوير</title>
-    <meta name="description" content="مركز صوت طموح — أبلغ عن مشكلة، اقترح تحسيناً، رشّح دورة، وتابع تقدم طلبك برقم مرجعي فوري." />
-    <meta name="keywords" content="مركز صوت طموح, ملاحظات, اقتراحات, بلاغات, دعم طموح, تحسين المنصة, feedback" />
-    <meta name="author" content="فريق طموح" />
-    <meta name="robots" content="index, follow" />
+    <meta data-rh="true" name="description" content="مركز صوت طموح — أبلغ عن مشكلة، اقترح تحسيناً، رشّح دورة، وتابع تقدم طلبك برقم مرجعي فوري." />
+    <meta data-rh="true" name="author" content="فريق طموح" />
 
-    <link rel="canonical" href="https://feedback.tomoh.io" />
+    <!-- Icons: sized derivatives that match manifest.webmanifest. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icon-512.png" />
+    <link rel="shortcut icon" type="image/png" href="/icon-192.png" />
 
-    <!-- Icons -->
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
-    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+    <!-- Plain-text reference for AI agents and answer engines. -->
+    <link rel="alternate" type="text/markdown" href="https://feedback.tomoh.io/llms.txt" title="llms.txt" />
 
     <!-- Open Graph -->
-    <meta property="og:site_name" content="طموح" />
-    <meta property="og:locale" content="ar_AR" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="مركز صوت طموح | شاركنا رأيك" />
-    <meta property="og:description" content="أبلغ عن مشكلة، اقترح تحسيناً، رشّح دورة، وتابع تقدم طلبك برقم مرجعي فوري." />
-    <meta property="og:url" content="https://feedback.tomoh.io" />
-    <meta property="og:image" content="https://feedback.tomoh.io/og-image.png" />
-    <meta property="og:image:alt" content="مركز صوت طموح" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta data-rh="true" property="og:site_name" content="طموح" />
+    <meta data-rh="true" property="og:locale" content="ar_AR" />
+    <meta data-rh="true" property="og:type" content="website" />
+    <meta data-rh="true" property="og:title" content="مركز صوت طموح | شاركنا رأيك" />
+    <meta data-rh="true" property="og:description" content="أبلغ عن مشكلة، اقترح تحسيناً، رشّح دورة، وتابع تقدم طلبك برقم مرجعي فوري." />
+    <meta data-rh="true" property="og:url" content="https://feedback.tomoh.io/" />
+    <meta data-rh="true" property="og:image" content="https://feedback.tomoh.io/og-image.png" />
+    <meta data-rh="true" property="og:image:alt" content="مركز صوت طموح" />
+    <!--
+      Dimensions are true for the default 1200x630 card only. PageMeta omits
+      them when a caller passes its own `image`, and because these carry
+      data-rh helmet then drops them instead of leaving a false size behind.
+    -->
+    <meta data-rh="true" property="og:image:width" content="1200" />
+    <meta data-rh="true" property="og:image:height" content="630" />
 
     <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@tomoh_center" />
-    <meta name="twitter:title" content="مركز صوت طموح | شاركنا رأيك" />
-    <meta name="twitter:description" content="أبلغ عن مشكلة، اقترح تحسيناً، رشّح دورة، وتابع تقدم طلبك." />
-    <meta name="twitter:image" content="https://feedback.tomoh.io/og-image.png" />
+    <meta data-rh="true" name="twitter:card" content="summary_large_image" />
+    <meta data-rh="true" name="twitter:site" content="@tomoh_center" />
+    <meta data-rh="true" name="twitter:title" content="مركز صوت طموح | شاركنا رأيك" />
+    <meta data-rh="true" name="twitter:description" content="أبلغ عن مشكلة، اقترح تحسيناً، رشّح دورة، وتابع تقدم طلبك." />
+    <meta data-rh="true" name="twitter:image" content="https://feedback.tomoh.io/og-image.png" />
 
     <!-- iOS / Android -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta data-rh="true" name="apple-mobile-web-app-capable" content="yes" />
+    <meta data-rh="true" name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="صوت طموح" />
     <meta name="mobile-web-app-capable" content="yes" />
 
-    <!-- Structured Data -->
+    <!--
+      Site-wide JSON-LD only: EducationalOrganization + WebSite + WebApplication.
+      Per-page WebPage/ContactPage nodes are emitted by PageMeta's `jsonLd` prop,
+      because a hardcoded WebPage node here would claim every route is the homepage.
+      The organization node is kept byte-for-byte in sync with the one in
+      tomoh-platform-main/index.html — same @id, so the two sites describe one entity.
+    -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -55,33 +77,62 @@
             "name": "طموح",
             "alternateName": "Tomoh",
             "url": "https://tomoh.io",
+            "description": "منصة تعليمية عربية مقرها السودان، تقدّم دورات ومختبرات عملية وتحديات في البرمجة والشبكات والتصميم والأمن السيبراني باللغة العربية.",
             "logo": {
               "@type": "ImageObject",
               "url": "https://tomoh.io/rr@4x-8-v2.png"
             },
+            "foundingLocation": {
+              "@type": "Place",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "SD"
+              }
+            },
+            "areaServed": [
+              { "@type": "Place", "name": "السودان" },
+              { "@type": "Place", "name": "الشرق الأوسط وشمال أفريقيا" }
+            ],
+            "knowsLanguage": ["ar", "en"],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://feedback.tomoh.io",
+              "availableLanguage": ["ar", "en"]
+            },
             "sameAs": [
               "https://x.com/tomoh_center",
-              "https://twitter.com/tomoh_center"
+              "https://linkedin.com/company/tomoh-sd",
+              "https://www.facebook.com/t0moh",
+              "https://tiktok.com/@tomohsd"
             ]
           },
           {
-            "@type": "WebPage",
-            "@id": "https://feedback.tomoh.io/#webpage",
+            "@type": "WebSite",
+            "@id": "https://feedback.tomoh.io/#website",
             "url": "https://feedback.tomoh.io",
             "name": "مركز صوت طموح",
-            "description": "منصة استقبال ملاحظات وآراء مجتمع طموح التعليمي",
             "inLanguage": "ar",
             "publisher": { "@id": "https://tomoh.io/#org" }
           },
           {
             "@type": "WebApplication",
+            "@id": "https://feedback.tomoh.io/#app",
             "name": "مركز صوت طموح",
             "url": "https://feedback.tomoh.io",
             "description": "منصة لإرسال الملاحظات والاقتراحات لمنصة طموح التعليمية",
             "applicationCategory": "UtilityApplication",
             "operatingSystem": "Web",
             "inLanguage": "ar",
-            "offers": { "@type": "Offer", "price": "0" }
+            "publisher": { "@id": "https://tomoh.io/#org" },
+            "isPartOf": { "@id": "https://feedback.tomoh.io/#website" },
+            "offers": {
+              "@type": "Offer",
+              "price": 0,
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            "isAccessibleForFree": true
           }
         ]
       }
@@ -92,6 +143,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://app.tomoh.io" />
+    <link rel="dns-prefetch" href="https://app.tomoh.io" />
     <link
       href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
       rel="stylesheet"

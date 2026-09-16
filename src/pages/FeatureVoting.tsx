@@ -7,6 +7,7 @@ import { getFeatures, voteFeature, unvoteFeature } from "@/lib/api";
 import type { Feature } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { getStatusLabel, getStatusColor } from "@/lib/utils";
+import PageMeta from "@/components/common/PageMeta";
 
 const featureIcons: Record<string, string> = {
   android:     "🤖",
@@ -88,7 +89,13 @@ export function FeatureVoting() {
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-10">
-      <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+      <PageMeta
+        title="صوّت على الميزات القادمة في منصة طموح"
+        description="تصفّح الميزات المقترحة لمنصة طموح — تطبيق أندرويد وiOS، الوضع الليلي، تحميل الدروس، الشهادات — وصوّت لما تريده أولاً؛ أعلى الأصوات يكون أولوية التطوير."
+        url="/features"
+        keywords={["التصويت على الميزات", "ميزات طموح القادمة", "طلب ميزة", "الوضع الليلي", "تطبيق طموح"]}
+      />
+      <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link to="/" className="hover:text-gray-600 transition-colors">الرئيسية</Link>
         <ChevronRight className="w-4 h-4 rotate-180" />
         <span className="text-gray-700 font-medium">التصويت على الميزات</span>
@@ -105,6 +112,8 @@ export function FeatureVoting() {
           </div>
         </div>
       </div>
+
+      <h2 className="text-sm font-bold text-gray-900 mb-4">الميزات المقترحة — مرتّبة حسب عدد الأصوات</h2>
 
       {isLoading ? (
         <div className="flex justify-center py-20">

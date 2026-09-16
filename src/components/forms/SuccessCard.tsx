@@ -7,10 +7,12 @@ import { useState } from "react";
 interface SuccessCardProps {
   reference: string;
   message: string;
+  /** Page-level heading. SuccessCard replaces the whole page, so it carries the h1. */
+  heading?: string;
   onReset: () => void;
 }
 
-export function SuccessCard({ reference, message, onReset }: SuccessCardProps) {
+export function SuccessCard({ reference, message, heading, onReset }: SuccessCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -29,7 +31,7 @@ export function SuccessCard({ reference, message, onReset }: SuccessCardProps) {
         <CheckCircle className="w-10 h-10 text-green-600" />
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-2">تم الإرسال بنجاح!</h2>
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">{heading ?? "تم الإرسال بنجاح!"}</h1>
       <p className="text-gray-500 text-sm mb-8 max-w-sm mx-auto leading-relaxed">{message}</p>
 
       <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl p-5 mb-6 max-w-xs mx-auto">
@@ -39,14 +41,14 @@ export function SuccessCard({ reference, message, onReset }: SuccessCardProps) {
         </p>
         <button
           onClick={handleCopy}
-          className="mt-3 text-xs text-gray-400 hover:text-gray-700 flex items-center gap-1 mx-auto transition-colors"
+          className="mt-3 text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1 mx-auto transition-colors"
         >
           <Copy className="w-3 h-3" />
           {copied ? "تم النسخ!" : "نسخ الرقم"}
         </button>
       </div>
 
-      <p className="text-xs text-gray-400 mb-8">
+      <p className="text-xs text-gray-500 mb-8">
         احتفظ بهذا الرقم لمتابعة حالة طلبك
       </p>
 

@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { FormField } from "@/components/forms/FormField";
 import { SuccessCard } from "@/components/forms/SuccessCard";
+import PageMeta from "@/components/common/PageMeta";
 import { submitSatisfaction } from "@/lib/api";
 import type { SatisfactionForm as SatisfactionFormType } from "@/types";
 
@@ -116,9 +117,16 @@ export function Satisfaction() {
   if (success) {
     return (
       <div className="container mx-auto max-w-lg px-4 py-12">
+        <PageMeta
+          title="قيّم تجربتك مع دورات طموح ومدربيها"
+          description="شاركنا تقييمك لجودة الدورة وأداء المدرب، وحدد احتمالية توصيتك بطموح لأصدقائك، وأخبرنا ما أعجبك وما يحتاج للتحسين — رأيك يساعدنا في تجربة تعليمية أفضل."
+          url="/satisfaction"
+          keywords={["تقييم الدورات", "تقييم المدرب", "رضا الطلاب", "تجربة التعلم"]}
+        />
         <SuccessCard
           reference={success.reference}
           message={success.message}
+          heading="تم إرسال تقييمك بنجاح"
           onReset={() => {
             setSuccess(null);
             reset();
@@ -133,7 +141,13 @@ export function Satisfaction() {
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-10">
-      <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+      <PageMeta
+        title="قيّم تجربتك مع دورات طموح ومدربيها"
+        description="شاركنا تقييمك لجودة الدورة وأداء المدرب، وحدد احتمالية توصيتك بطموح لأصدقائك، وأخبرنا ما أعجبك وما يحتاج للتحسين — رأيك يساعدنا في تجربة تعليمية أفضل."
+        url="/satisfaction"
+        keywords={["تقييم الدورات", "تقييم المدرب", "رضا الطلاب", "تجربة التعلم"]}
+      />
+      <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link to="/" className="hover:text-gray-600 transition-colors">الرئيسية</Link>
         <ChevronRight className="w-4 h-4 rotate-180" />
         <span className="text-gray-700 font-medium">تقييم التجربة</span>

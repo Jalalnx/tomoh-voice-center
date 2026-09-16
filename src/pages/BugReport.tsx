@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FormField } from "@/components/forms/FormField";
 import { SuccessCard } from "@/components/forms/SuccessCard";
+import PageMeta from "@/components/common/PageMeta";
 import { submitBugReport } from "@/lib/api";
 import { detectBrowserInfo } from "@/lib/utils";
 import { useAuth, LoginPrompt } from "@/contexts/AuthContext";
@@ -100,9 +101,16 @@ export function BugReport() {
   if (success) {
     return (
       <div className="container mx-auto max-w-lg px-4 py-12">
+        <PageMeta
+          title="الإبلاغ عن مشكلة تقنية في منصة طموح"
+          description="واجهت خللاً في تسجيل الدخول أو الدفع أو مشاهدة الدروس أو الاختبارات أو الشهادات؟ أبلغ فريق طموح التقني مع صورة توضيحية، وسنراجع بلاغك ونتواصل معك خلال 24 ساعة."
+          url="/bug-report"
+          keywords={["الإبلاغ عن مشكلة", "دعم طموح التقني", "مشكلة تسجيل الدخول", "مشكلة الدفع", "بلاغ خلل"]}
+        />
         <SuccessCard
           reference={success.reference}
           message={success.message}
+          heading="تم إرسال بلاغك بنجاح"
           onReset={() => { setSuccess(null); reset(); setScreenshot(null); }}
         />
       </div>
@@ -111,8 +119,15 @@ export function BugReport() {
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-10">
+      <PageMeta
+        title="الإبلاغ عن مشكلة تقنية في منصة طموح"
+        description="واجهت خللاً في تسجيل الدخول أو الدفع أو مشاهدة الدروس أو الاختبارات أو الشهادات؟ أبلغ فريق طموح التقني مع صورة توضيحية، وسنراجع بلاغك ونتواصل معك خلال 24 ساعة."
+        url="/bug-report"
+        keywords={["الإبلاغ عن مشكلة", "دعم طموح التقني", "مشكلة تسجيل الدخول", "مشكلة الدفع", "بلاغ خلل"]}
+      />
+
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+      <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link to="/" className="hover:text-gray-600 transition-colors">الرئيسية</Link>
         <ChevronRight className="w-4 h-4 rotate-180" />
         <span className="text-gray-700 font-medium">الإبلاغ عن مشكلة</span>
@@ -152,12 +167,12 @@ export function BugReport() {
           </FormField>
 
           {/* Category */}
-          <FormField label="نوع المشكلة" required error={errors.category?.message}>
+          <FormField label="نوع المشكلة" htmlFor="category" required error={errors.category?.message}>
             <Select
               value={selectedCategory}
               onValueChange={(v) => setValue("category", v as BugCategory)}
             >
-              <SelectTrigger>
+              <SelectTrigger id="category">
                 <SelectValue placeholder="اختر نوع المشكلة" />
               </SelectTrigger>
               <SelectContent>
@@ -183,8 +198,8 @@ export function BugReport() {
           </FormField>
 
           {/* Impact */}
-          <FormField label="درجة التأثير" required error={errors.impact?.message}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <FormField label="درجة التأثير" group required error={errors.impact?.message}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="radiogroup" aria-label="درجة التأثير">
               {impactOptions.map((opt) => (
                 <label
                   key={opt.value}
@@ -217,7 +232,7 @@ export function BugReport() {
           </FormField>
 
           {/* Screenshot */}
-          <FormField label="صورة توضيحية" optional hint="PNG أو JPG — الحد الأقصى 5MB">
+          <FormField label="صورة توضيحية" htmlFor="screenshot" optional hint="PNG أو JPG — الحد الأقصى 5MB">
             <div
               className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-burgundy-300 hover:bg-burgundy-50/50 transition-all"
               onClick={() => fileRef.current?.click()}
@@ -248,7 +263,7 @@ export function BugReport() {
                 </div>
               )}
             </div>
-            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+            <input id="screenshot" ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
           </FormField>
 
           {/* Auto-collected info notice */}

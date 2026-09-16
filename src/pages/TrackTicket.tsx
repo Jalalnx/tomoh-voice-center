@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { trackTicket } from "@/lib/api";
 import type { Ticket } from "@/types";
 import { getStatusLabel, getStatusColor, getPriorityLabel, getPriorityColor, formatDate } from "@/lib/utils";
+import PageMeta from "@/components/common/PageMeta";
 
 const typeLabels: Record<string, string> = {
   bug_report: "🐛 بلاغ مشكلة",
@@ -52,7 +53,13 @@ export function TrackTicket() {
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-10">
-      <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+      <PageMeta
+        title="تتبع حالة طلبك برقم المرجع"
+        description="أدخل رقم المرجع الذي وصلك بعد الإرسال (مثال TMOH-2026-1045) لتعرف حالة بلاغك أو اقتراحك ومسار معالجته خطوة بخطوة لدى فريق طموح."
+        url="/track"
+        noIndex
+      />
+      <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link to="/" className="hover:text-gray-600 transition-colors">الرئيسية</Link>
         <ChevronRight className="w-4 h-4 rotate-180" />
         <span className="text-gray-700 font-medium">تتبع الطلب</span>
@@ -70,7 +77,9 @@ export function TrackTicket() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex gap-3 mb-8">
+          <label htmlFor="reference" className="sr-only">رقم المرجع</label>
           <Input
+            id="reference"
             placeholder="TMOH-2026-XXXX"
             className="font-mono text-center text-lg tracking-widest uppercase flex-1"
             {...register("reference", { required: true })}
@@ -97,9 +106,11 @@ export function TrackTicket() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               className="bg-red-50 border border-red-100 rounded-2xl p-6 text-center"
+              role="status"
+              aria-live="polite"
             >
               <XCircle className="w-10 h-10 text-red-300 mx-auto mb-3" />
-              <p className="font-semibold text-red-700 mb-1">لم يتم العثور على الطلب</p>
+              <h2 className="font-semibold text-red-700 mb-1">لم يتم العثور على الطلب</h2>
               <p className="text-sm text-red-500">تأكد من رقم المرجع وحاول مرة أخرى</p>
             </motion.div>
           )}
@@ -115,7 +126,7 @@ export function TrackTicket() {
               {/* Ticket header */}
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div>
-                  <p className="text-xs text-gray-400 mb-1">رقم المرجع</p>
+                  <p className="text-xs text-gray-500 mb-1">رقم المرجع</p>
                   <p className="font-mono font-black text-xl text-tomoh-burgundy">{ticket.reference}</p>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
@@ -131,15 +142,15 @@ export function TrackTicket() {
               {/* Type & dates */}
               <div className="bg-gray-50 rounded-xl p-4 grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-xs text-gray-400 mb-1">نوع الطلب</p>
+                  <p className="text-xs text-gray-500 mb-1">نوع الطلب</p>
                   <p className="font-semibold text-gray-800">{typeLabels[ticket.type] ?? ticket.type}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-400 mb-1">تاريخ الإرسال</p>
+                  <p className="text-xs text-gray-500 mb-1">تاريخ الإرسال</p>
                   <p className="font-semibold text-gray-800">{formatDate(ticket.created_at)}</p>
                 </div>
                 <div className="col-span-2">
-                  <p className="text-xs text-gray-400 mb-1">الموضوع</p>
+                  <p className="text-xs text-gray-500 mb-1">الموضوع</p>
                   <p className="font-semibold text-gray-800">{ticket.title}</p>
                 </div>
               </div>
@@ -161,7 +172,7 @@ export function TrackTicket() {
 
               {/* Status timeline */}
               <div>
-                <p className="text-sm font-semibold text-gray-700 mb-4">مسار الطلب</p>
+                <h2 className="text-sm font-semibold text-gray-700 mb-4">مسار الطلب</h2>
                 <div className="relative">
                   {statusSteps.map((step, index) => {
                     const isCompleted = index <= currentStepIndex;
