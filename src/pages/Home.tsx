@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Bug, Lightbulb, BookOpen, Star, Rocket, Map,
-  ArrowLeft, ChevronLeft, TrendingUp, Users, CheckCircle,
+  ArrowLeft, ChevronLeft, TrendingUp, Users, CheckCircle, Target,
 } from "lucide-react";
 import { platformApi } from "@/lib/api";
 import PageMeta from "@/components/common/PageMeta";
@@ -20,6 +20,17 @@ const stagger = {
 
 /* ── data ── */
 const categories = [
+  {
+    icon: Target,
+    emoji: "🎯",
+    title: "طلب خدمة / كورس",
+    desc: "محتاج كورس أو موقع أو تطبيق؟ اطلبه في أقل من دقيقة",
+    path: "/service-request",
+    accent: "text-tomoh-burgundy",
+    bg:     "bg-burgundy-50",
+    border: "hover:border-burgundy-300",
+    ring:   "group-hover:ring-burgundy-100",
+  },
   {
     icon: Bug,
     emoji: "🐛",

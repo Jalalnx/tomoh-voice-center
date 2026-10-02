@@ -14,6 +14,8 @@ const Satisfaction = lazy(() => import("@/pages/Satisfaction").then((m) => ({ de
 const FeatureVoting = lazy(() => import("@/pages/FeatureVoting").then((m) => ({ default: m.FeatureVoting })));
 const Roadmap = lazy(() => import("@/pages/Roadmap").then((m) => ({ default: m.Roadmap })));
 const TrackTicket = lazy(() => import("@/pages/TrackTicket").then((m) => ({ default: m.TrackTicket })));
+const ServiceRequest = lazy(() => import("@/pages/ServiceRequest").then((m) => ({ default: m.ServiceRequest })));
+const MyRequests = lazy(() => import("@/pages/MyRequests").then((m) => ({ default: m.MyRequests })));
 
 function NotFound() {
   return (
@@ -48,6 +50,8 @@ export default function App() {
           <Route path="/features" element={<FeatureVoting />} />
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/track" element={<TrackTicket />} />
+          <Route path="/service-request" element={<ServiceRequest />} />
+          <Route path="/my-requests" element={<MyRequests />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

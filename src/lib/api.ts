@@ -4,6 +4,9 @@ import type {
   BugReportForm,
   SuggestionForm,
   CourseRequestForm,
+  ServiceRequestForm,
+  ServiceRequestResponse,
+  MyServiceRequest,
   SatisfactionForm,
   Feature,
   RoadmapItem,
@@ -53,6 +56,29 @@ export const submitSuggestion = async (data: SuggestionForm): Promise<SubmitResp
 export const submitCourseRequest = async (data: CourseRequestForm): Promise<SubmitResponse> => {
   const res = await api.post<ApiResponse<SubmitResponse>>("/course-requests", data);
   return res.data.data;
+};
+
+// Service / Course Requests (طلب خدمة / كورس)
+export const submitServiceRequest = async (data: ServiceRequestForm): Promise<ServiceRequestResponse> => {
+  const res = await api.post<ApiResponse<ServiceRequestResponse>>("/service-requests", data);
+  return res.data.data;
+};
+
+/** Attach anonymous requests (by their one-time tokens) to the signed-in account. */
+export const claimServiceRequests = async (tokens: string[]): Promise<number> => {
+  const res = await api.post<ApiResponse<{ claimed: number }>>("/service-requests/claim", { tokens });
+  return res.data.data.claimed;
+};
+
+export const getMyServiceRequests = async (): Promise<MyServiceRequest[]> => {
+  const res = await api.get<ApiResponse<MyServiceRequest[]>>("/service-requests/mine");
+  return res.data.data;
+};
+
+/** Server-provided Arabic message from an axios error, if any. */
+export const apiErrorMessage = (err: unknown): string | null => {
+  const msg = (err as { response?: { data?: { message?: unknown } } })?.response?.data?.message;
+  return typeof msg === "string" && msg.length < 300 ? msg : null;
 };
 
 // Satisfaction Survey
