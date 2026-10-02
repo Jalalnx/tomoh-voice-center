@@ -2,6 +2,7 @@ export type FeedbackType =
   | "bug_report"
   | "suggestion"
   | "course_request"
+  | "service_request"
   | "satisfaction"
   | "feature_request";
 
@@ -58,6 +59,41 @@ export interface CourseRequestForm {
   reason: string;
   level: CourseLevel;
   suggested_instructor?: string;
+}
+
+export type ServiceRequestType = "course" | "tech_service";
+export type ContactMethod = "email" | "phone" | "whatsapp";
+
+export interface ServiceRequestForm {
+  request_type: ServiceRequestType;
+  field: string;
+  details?: string;
+  contact_method?: ContactMethod;
+  contact_value?: string;
+  /** Honeypot — always empty for humans. */
+  website: string;
+  /** Seconds the form was open before submit (bot filter). */
+  elapsed: number;
+}
+
+export interface ServiceRequestResponse extends SubmitResponse {
+  /** True when the visitor was signed in and the request is already on their account. */
+  linked: boolean;
+  /** One-time token to attach this anonymous request to an account later. */
+  claim_token: string | null;
+}
+
+export interface MyServiceRequest {
+  reference: string;
+  request_type: ServiceRequestType;
+  type_label: string;
+  field: string;
+  field_label: string;
+  details: string | null;
+  contact: string | null;
+  status: TicketStatus;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface SatisfactionForm {

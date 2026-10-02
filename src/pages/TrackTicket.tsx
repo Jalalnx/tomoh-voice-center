@@ -17,6 +17,7 @@ const typeLabels: Record<string, string> = {
   bug_report: "🐛 بلاغ مشكلة",
   suggestion: "💡 اقتراح",
   course_request: "📚 ترشيح دورة",
+  service_request: "🎯 طلب خدمة / كورس",
   satisfaction: "⭐ تقييم",
   feature_request: "🚀 طلب ميزة",
 };

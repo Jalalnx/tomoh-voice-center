@@ -29,7 +29,7 @@ export function Header() {
 
         {/* Nav */}
         <nav className="hidden md:flex items-center gap-1">
-          {navItems.map((item) => (
+          {(user ? [...navItems, { label: "طلباتي", path: "/my-requests" }] : navItems).map((item) => (
             <Link
               key={item.path}
               to={item.path}

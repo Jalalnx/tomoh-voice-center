@@ -20,3 +20,4 @@ export const PLATFORM_URL =
   import.meta.env.VITE_PLATFORM_URL || 'https://tomoh.io';
 
 export const LOGIN_URL = `${PLATFORM_URL}/account/login`;
+export const REGISTER_URL = `${PLATFORM_URL}/account/register`;
